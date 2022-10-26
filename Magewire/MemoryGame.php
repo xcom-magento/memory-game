@@ -11,9 +11,11 @@ use Xcom\MemoryGame\Api\Data\GameInterface;
 use Xcom\MemoryGame\Api\Data\PlayerInterface;
 use Xcom\MemoryGame\Api\PlayerRepositoryInterface;
 use Xcom\MemoryGame\Model\Player;
+use Xcom\MemoryGame\Model\Game;
 use Xcom\MemoryGame\Api\Data\PlayerInterfaceFactory;
 use Xcom\MemoryGame\Api\GameRepositoryInterface;
 use Xcom\MemoryGame\Api\Data\GameInterfaceFactory;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class MemoryGame extends Component
 {
@@ -29,10 +31,14 @@ class MemoryGame extends Component
         protected PlayerRepositoryInterface $playerRepository,
         protected PlayerInterfaceFactory $playerFactory,
         protected GameRepositoryInterface $gameRepository,
-        protected GameInterfaceFactory $gameFactory
+        protected GameInterfaceFactory $gameFactory,
+        protected SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
     }
 
+    /**
+     * @throws LocalizedException
+     */
     public function mount($properties, ...$request): void
     {
         parent::mount($properties, $request);
@@ -53,7 +59,8 @@ class MemoryGame extends Component
         }
     }
 
-    public function checkYourTurn() {
+    public function checkYourTurn(): int
+    {
         return rand(1,100);
     }
 
@@ -114,6 +121,7 @@ class MemoryGame extends Component
     {
         $sessionId = session_id();
         try {
+            $this->searchCriteriaBuilder->addFilter('status', Game::STATUS_WAITING_FOR_PLAYERS);
             $player = $this->playerRepository->getBySessionId($sessionId);
         } catch (\Exception) {
             $player = $this->playerFactory->create();
@@ -134,14 +142,36 @@ class MemoryGame extends Component
     {
         try {
             /* Get open games */
-            $game = $this->gameRepository->get(1);
+            $this->searchCriteriaBuilder->addFilter('status', Game::STATUS_WAITING_FOR_PLAYERS);
+            $waitingGames = $this->gameRepository->getList($this->searchCriteriaBuilder->create())->getItems();
+
+            if (count($waitingGames)) {
+                $game = reset($waitingGames);
+            } else {
+                $game = $this->createNewGame($gameConfig);
+            }
         } catch (\Exception) {
-            $game = $this->gameFactory->create();
-            $game->setStatus('waiting_for_players')
-                ->setPlayer1($player->getPlayerId())
-                ->setGameConfig($this->jsonSerializer->serialize($gameConfig));
-            $this->gameRepository->save($game);
+            $game = $this->createNewGame($gameConfig);
         }
+
+        $game->addPlayer($player);
+
+        $this->saveGame($game);
+        return $game;
+    }
+
+    /**
+     * @param $gameConfig
+     * @return GameInterface
+     * @throws LocalizedException
+     */
+    private function createNewGame($gameConfig): GameInterface
+    {
+        $game = $this->gameFactory->create();
+        $game->setStatus(Game::STATUS_WAITING_FOR_PLAYERS)
+            ->setGameConfig($this->jsonSerializer->serialize($gameConfig));
+        $this->saveGame($game);
+
         return $game;
     }
 
@@ -154,6 +184,17 @@ class MemoryGame extends Component
     private function updateGameConfig(GameInterface $game, $gameConfig): void
     {
         $game->setGameConfig($this->jsonSerializer->serialize($gameConfig));
+        $this->saveGame($game);
+    }
+
+    /**
+     * @param GameInterface $game
+     * @param $gameConfig
+     * @return void
+     * @throws LocalizedException
+     */
+    private function saveGame(GameInterface $game): void
+    {
         $this->gameRepository->save($game);
     }
 }

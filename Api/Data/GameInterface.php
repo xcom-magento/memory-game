@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Xcom\MemoryGame\Api\Data;
 
+use Xcom\MemoryGame\Model\Game;
+
 interface GameInterface
 {
     public const GAME_ID = 'game_id';
@@ -33,5 +35,7 @@ interface GameInterface
 
     public function getGameConfig();
     public function setGameConfig($gameConfig);
+
+    public function addPlayer(PlayerInterface $player): Game;
 }
 

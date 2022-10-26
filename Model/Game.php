@@ -7,11 +7,15 @@ declare(strict_types=1);
 
 namespace Xcom\MemoryGame\Model;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Xcom\MemoryGame\Api\Data\GameInterface;
+use Xcom\MemoryGame\Api\Data\PlayerInterface;
 
 class Game extends AbstractModel implements GameInterface
 {
+    public const STATUS_WAITING_FOR_PLAYERS = 'waiting_for_players';
+    public const STATUS_IN_PROGRESS = 'in_progress';
 
     /**
      * @inheritDoc
@@ -115,6 +119,29 @@ class Game extends AbstractModel implements GameInterface
     public function setGameConfig($gameConfig)
     {
         return $this->setData(self::GAME_CONFIG, $gameConfig);
+    }
+
+
+    /**
+     * @param PlayerInterface $player
+     * @return Game
+     * @throws LocalizedException
+     */
+    public function addPlayer(PlayerInterface $player): Game
+    {
+        $playerNo = 1;
+        if ($this->getPlayer1()) {
+            $playerNo = 2;
+        }
+
+        $set = "setPlayer" . $playerNo;
+        $this->{$set}($player->getPlayerId());
+
+        if ($playerNo == 2) {
+            $this->setStatus(self::STATUS_IN_PROGRESS);
+        }
+
+        return $this;
     }
 }
 
