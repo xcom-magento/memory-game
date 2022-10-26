@@ -5,3 +5,53 @@
  */
 
 echo $block->getMemoryGame();
+
+?>
+<div class="grid grid-cols-4 gap-4">
+    <?php
+    $images = [];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+    $images[] = [
+        'url' => 'https://hackathon.yfleuren.o.xotap.nl/media/catalog/product/cache/c7f13c0b520655c8fbf34c271fd16df5/m/b/mb04-black-0.jpg'
+    ];
+
+    foreach ($images as $image):
+
+        ?>
+        <div>
+            <img src="<?= $image['url'] ?>" />
+        </div>
+    <?php endforeach; ?>
+</div>
