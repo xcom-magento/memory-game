@@ -4,10 +4,16 @@ namespace Xcom\MemoryGame\Magewire;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Helper\Product as ProductHelper;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magewirephp\Magewire\Component;
+use Xcom\MemoryGame\Api\Data\GameInterface;
+use Xcom\MemoryGame\Api\Data\PlayerInterface;
 use Xcom\MemoryGame\Api\PlayerRepositoryInterface;
-use Xcom\MemoryGame\Model\PlayerFactory;
+use Xcom\MemoryGame\Model\Player;
+use Xcom\MemoryGame\Api\Data\PlayerInterfaceFactory;
+use Xcom\MemoryGame\Api\GameRepositoryInterface;
+use Xcom\MemoryGame\Api\Data\GameInterfaceFactory;
 
 class MemoryGame extends Component
 {
@@ -21,16 +27,26 @@ class MemoryGame extends Component
         protected ProductRepositoryInterface $productRepository,
         protected ProductHelper $productHelper,
         protected PlayerRepositoryInterface $playerRepository,
-        protected PlayerFactory $playerFactory
+        protected PlayerInterfaceFactory $playerFactory,
+        protected GameRepositoryInterface $gameRepository,
+        protected GameInterfaceFactory $gameFactory
     ) {
     }
 
     public function mount($properties, ...$request): void
     {
         parent::mount($properties, $request);
+
         if (count($this->cards) == 0) {
             $this->cards = $this->dealCards();
+            $player = $this->getPlayer();
+            $gameConfig = [
+                'cards' => $this->cards
+            ];
+            $gameConfig = $this->jsonSerializer->serialize($gameConfig);
+            $game = $this->getGame($player, $gameConfig);
         }
+
     }
 
     public function checkYourTurn() {
@@ -84,5 +100,44 @@ class MemoryGame extends Component
     public function turnCard(string $cardPosition): void
     {
         $this->cards[$cardPosition]['status'] = 1;
+    }
+
+    /**
+     * @return PlayerInterface
+     * @throws LocalizedException
+     */
+    private function getPlayer(): PlayerInterface
+    {
+        $sessionId = session_id();
+        try {
+            $player = $this->playerRepository->getBySessionId($sessionId);
+        } catch (\Exception) {
+            $player = $this->playerFactory->create();
+            $player->setSessionId($sessionId)
+                ->setScore(0);
+            $this->playerRepository->save($player);
+        }
+        return $player;
+    }
+
+    /**
+     * @param $player
+     * @param $gameConfig
+     * @return GameInterface
+     * @throws LocalizedException
+     */
+    private function getGame($player, $gameConfig): GameInterface
+    {
+        try {
+            /* Get open games */
+            $game = $this->gameRepository->get(1);
+        } catch (\Exception) {
+            $game = $this->gameFactory->create();
+            $game->setStatus('waiting_for_players')
+                ->setPlayer1($player->getPlayerId())
+                ->setGameConfig($gameConfig);
+            $this->gameRepository->save($game);
+        }
+        return $game;
     }
 }

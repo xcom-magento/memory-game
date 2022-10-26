@@ -6,7 +6,7 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
 /**
  * @var Template $block
  * @var MemoryGame $magewire
-**/
+ **/
 ?>
 <div wire:poll.10000ms="$emitTo('memorygame', 'refresh')">
     <?php echo $magewire->checkYourTurn(); ?>
@@ -16,10 +16,10 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
             ?>
             <div>
                 <?php if ($card['status'] == 0): ?>
-                <img src="<?=$block->getViewFileUrl('Xcom_MemoryGame::images/logo.svg') ?>"
-                     wire:click="turnCard('<?= $index ?>')" />
+                    <img src="<?=$block->getViewFileUrl('Xcom_MemoryGame::images/logo.svg') ?>"
+                         wire:click="turnCard('<?= $index ?>')" />
                 <?php else: ?>
-                <img src="<?= $card['url'] ?>" />
+                    <img src="<?= $card['url'] ?>" />
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>

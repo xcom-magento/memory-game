@@ -4,7 +4,7 @@
     <table name="memory_game_player" resource="default" engine="innodb" comment="Memory Game Player">
         <column xsi:type="int" name="player_id" unsigned="true" nullable="false" identity="true"
                 comment="Entity Id"/>
-        <column xsi:type="int" name="session_id" unsigned="true" nullable="true" comment="Session Id"/>
+        <column xsi:type="varchar" name="session_id" length="255" nullable="true" default="" comment="Session Id"/>
         <column xsi:type="int" name="score" unsigned="true" nullable="true" comment="Score"/>
         <index referenceId="MEMORY_GAME_PLAYER_ID" indexType="btree">
             <column name="player_id"/>

@@ -91,8 +91,21 @@ class PlayerRepository implements PlayerRepositoryInterface
     {
         $player = $this->playerFactory->create();
         $this->resource->load($player, $playerId);
-        if (!$player->getId()) {
+        if (!$player->getPlayerId()) {
             throw new NoSuchEntityException(__('Player with id "%1" does not exist.', $playerId));
+        }
+        return $player;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBySessionId($sessionId)
+    {
+        $player = $this->playerFactory->create();
+        $this->resource->load($player, $sessionId, 'session_id');
+        if (!$player->getPlayerId()) {
+            throw new NoSuchEntityException(__('Player with session_id "%1" does not exist.', $sessionId));
         }
         return $player;
     }

@@ -91,7 +91,7 @@ class GameRepository implements GameRepositoryInterface
     {
         $game = $this->gameFactory->create();
         $this->resource->load($game, $gameId);
-        if (!$game->getId()) {
+        if (!$game->getGameId()) {
             throw new NoSuchEntityException(__('Game with id "%1" does not exist.', $gameId));
         }
         return $game;
@@ -104,17 +104,17 @@ class GameRepository implements GameRepositoryInterface
         \Magento\Framework\Api\SearchCriteriaInterface $criteria
     ) {
         $collection = $this->gameCollectionFactory->create();
-        
+
         $this->collectionProcessor->process($criteria, $collection);
-        
+
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
-        
+
         $items = [];
         foreach ($collection as $model) {
             $items[] = $model;
         }
-        
+
         $searchResults->setItems($items);
         $searchResults->setTotalCount($collection->getSize());
         return $searchResults;

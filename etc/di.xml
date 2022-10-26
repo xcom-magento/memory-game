@@ -2,7 +2,15 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Xcom\MemoryGame\Api\GameRepositoryInterface"
                 type="Xcom\MemoryGame\Model\GameRepository" />
+    <preference for="Xcom\MemoryGame\Api\Data\GameInterface"
+                type="Xcom\MemoryGame\Model\Game"/>
+    <preference for="Xcom\MemoryGame\Api\Data\GameSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
 
     <preference for="Xcom\MemoryGame\Api\PlayerRepositoryInterface"
                 type="Xcom\MemoryGame\Model\PlayerRepository" />
+    <preference for="Xcom\MemoryGame\Api\Data\PlayerInterface"
+                type="Xcom\MemoryGame\Model\Player"/>
+    <preference for="Xcom\MemoryGame\Api\Data\PlayerSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
 </config>

@@ -31,6 +31,14 @@ interface PlayerRepositoryInterface
     public function get($playerId);
 
     /**
+     * Retrieve Player by session id
+     * @param string $sessionId
+     * @return \Xcom\MemoryGame\Api\Data\PlayerInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getBySessionId($sessionId);
+
+    /**
      * Retrieve Player matching the specified criteria.
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Xcom\MemoryGame\Api\Data\PlayerSearchResultsInterface
