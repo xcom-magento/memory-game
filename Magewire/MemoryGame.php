@@ -25,9 +25,12 @@ class MemoryGame extends Component
     ) {
     }
 
-    public function initialize()
+    public function mount($properties, ...$request): void
     {
-        $this->cards = $this->dealCards();
+        parent::mount($properties, $request);
+        if (count($this->cards) == 0) {
+            $this->cards = $this->dealCards();
+        }
     }
 
     public function checkYourTurn() {
@@ -49,6 +52,7 @@ class MemoryGame extends Component
     {
         $cards = [];
         $products = [1,2,3,4,5,6];
+        $count = 0;
 
         foreach ($products as $productId) {
             try {
@@ -60,8 +64,9 @@ class MemoryGame extends Component
                         'url' => $this->productHelper->getImageUrl($product),
                         'status' => 0
                     ];
-                    $cards[] = $productInfo;
-                    $cards[] = $productInfo;
+
+                    $cards[$count++] = $productInfo;
+                    $cards[$count++] = $productInfo;
                 }
             } catch (\Exception) {
 
@@ -73,10 +78,11 @@ class MemoryGame extends Component
     }
 
     /**
-     * @return string
+     * @param string $cardPosition
+     * @return void
      */
-    public function turnCard(): string
+    public function turnCard(string $cardPosition): void
     {
-        return '';
+        $this->cards[$cardPosition]['status'] = 1;
     }
 }

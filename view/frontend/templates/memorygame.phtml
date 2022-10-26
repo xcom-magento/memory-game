@@ -7,21 +7,19 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
  * @var Template $block
  * @var MemoryGame $magewire
 **/
-
-$magewire->initialize();
 ?>
-<div wire:poll.10000ms="$emitTo('memorygame', 'refresh')">
+<div>
     <?php echo $magewire->checkYourTurn(); ?>
     <div class="grid grid-cols-4 gap-4">
         <?php
-        foreach ($magewire->cards as $card):
+        foreach ($magewire->cards as $index => $card):
             ?>
             <div>
                 <?php if ($card['status'] == 0): ?>
-                <img data-id="<?= $card['id'] ?>" src="<?=$block->getViewFileUrl('Xcom_MemoryGame::images/logo.svg') ?>"
-                     wire:click="turnCard" />
+                <img src="<?=$block->getViewFileUrl('Xcom_MemoryGame::images/logo.svg') ?>"
+                     wire:click="turnCard('<?= $index ?>')" />
                 <?php else: ?>
-                <img data-id="<?= $card['id'] ?>" src="<?= $card['url'] ?>" />
+                <img src="<?= $card['url'] ?>" />
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
