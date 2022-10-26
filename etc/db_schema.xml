@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="memory_game_player" resource="default" engine="innodb" comment="Memory Game Player">
+        <column xsi:type="int" name="player_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity Id"/>
+        <column xsi:type="int" name="session_id" unsigned="true" nullable="true" comment="Session Id"/>
+        <column xsi:type="int" name="score" unsigned="true" nullable="true" comment="Score"/>
+        <index referenceId="MEMORY_GAME_PLAYER_ID" indexType="btree">
+            <column name="player_id"/>
+        </index>
+    </table>
+
+    <table name="memory_game_game" resource="default" engine="innodb" comment="Memory Game Game">
+        <column xsi:type="int" name="game_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity Id"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="255" default="" comment="Status"/>
+        <column xsi:type="int" name="player1" unsigned="true" nullable="true" comment="Player 1"/>
+        <column xsi:type="int" name="player2" unsigned="true" nullable="true" comment="Player 2"/>
+        <column xsi:type="int" name="active_player" unsigned="true" nullable="true" comment="Active Player"/>
+        <constraint xsi:type="foreign" referenceId="MEM_GAM_PLY_ID1"
+                    table="memory_game_game" column="player1" referenceTable="memory_game_player"
+                    referenceColumn="player_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MEM_GAM_PLY_ID2"
+                    table="memory_game_game" column="player2" referenceTable="memory_game_player"
+                    referenceColumn="player_id" onDelete="CASCADE"/>
+        <index referenceId="MEMORY_GAME_GAME_ID" indexType="btree">
+            <column name="game_id"/>
+        </index>
+    </table>
+</schema>

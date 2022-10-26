@@ -9,6 +9,11 @@ use Magewirephp\Magewire\Component;
 
 class MemoryGame extends Component
 {
+    /**
+     * @param Json $jsonSerializer
+     * @param ProductRepositoryInterface $productRepository
+     * @param ProductHelper $productHelper
+     */
     public function __construct(
         protected Json $jsonSerializer,
         protected ProductRepositoryInterface $productRepository,
@@ -43,22 +48,19 @@ class MemoryGame extends Component
     private function getMemoryCards(): array
     {
         $cards = [];
-        $products = [1,2,3,4,5];
+        $products = [1,2,3,4,5,6];
 
         foreach ($products as $productId) {
             try {
                 $product = $this->productRepository->getById($productId);
                 if ($product) {
-                    $cards[] = [
+                    $productInfo = [
                         'id' => $product->getId(),
                         'name' => $product->getName(),
                         'url' => $this->productHelper->getImageUrl($product)
                     ];
-                    $cards[] = [
-                        'id' => $product->getId(),
-                        'name' => $product->getName(),
-                        'url' => $this->productHelper->getImageUrl($product)
-                    ];
+                    $cards[] = $productInfo;
+                    $cards[] = $productInfo;
                 }
             } catch (\Exception) {
 

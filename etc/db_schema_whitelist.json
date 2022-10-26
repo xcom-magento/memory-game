@@ -1,0 +1,28 @@
+{
+    "memory_game_player": {
+        "column": {
+            "player_id": true,
+            "session_id": true,
+            "score": true
+        },
+        "index": {
+            "MEMORY_GAME_PLAYER_PLAYER_ID": true
+        }
+    },
+    "memory_game_game": {
+        "column": {
+            "game_id": true,
+            "status": true,
+            "player1": true,
+            "player2": true,
+            "active_player": true
+        },
+        "index": {
+            "MEMORY_GAME_GAME_GAME_ID": true
+        },
+        "constraint": {
+            "MEMORY_GAME_GAME_PLAYER1_MEMORY_GAME_PLAYER_PLAYER_ID": true,
+            "MEMORY_GAME_GAME_PLAYER2_MEMORY_GAME_PLAYER_PLAYER_ID": true
+        }
+    }
+}
