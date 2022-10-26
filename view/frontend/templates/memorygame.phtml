@@ -4,10 +4,14 @@
 use Xcom\MemoryGame\Magewire\MemoryGame;
 
 /**
- * @var \Xcom\MemoryGame\Block\MemoryGame $block
  * @var \Xcom\MemoryGame\Magewire\MemoryGame $magewire
  */
 ?>
+
+<div wire:poll.keep-alive="$emitTo('memorygame', 'refresh')">
+    <?php echo $magewire->checkYourTurn(); ?>
+</div>
+
 <div>
     <div class="grid grid-cols-4 gap-4">
         <?php

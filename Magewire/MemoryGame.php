@@ -29,6 +29,10 @@ class MemoryGame extends Component
         return __('MemoryGame')->render();
     }
 
+    public function checkYourTurn() {
+        return rand(1,100);
+    }
+
     /**
      * @return array
      */
