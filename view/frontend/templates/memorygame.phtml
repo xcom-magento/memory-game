@@ -11,7 +11,7 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
 $magewire->initialize();
 ?>
 
-<div wire:poll.keep-alive="$emitTo('memorygame', 'refresh')">
+<div wire:poll.10000ms="$emitTo('memorygame', 'refresh')">
     <?php echo $magewire->checkYourTurn(); ?>
 </div>
 
