@@ -24,6 +24,13 @@ class MemoryGame extends Component
      */
     public array $cards = [];
 
+    public $nrOfClicks = 0;
+
+    /**
+     * @var int
+     */
+    public int $firstCardClicked = -1;
+
     public function __construct(
         protected Json $jsonSerializer,
         protected ProductRepositoryInterface $productRepository,
@@ -41,7 +48,7 @@ class MemoryGame extends Component
      */
     public function mount($properties, ...$request): void
     {
-        parent::mount($properties, $request);
+        //$this->nrOfClicks = 0;
 
         $player = $this->getPlayer();
         $gameConfig = [
@@ -110,7 +117,44 @@ class MemoryGame extends Component
      */
     public function turnCard(string $cardPosition): void
     {
+        /** TODO first check if it is your turn */
+
+        /** check if the first card is clicked a second time */
+        if ($this->firstCardClicked == $cardPosition) {
+            return;
+        }
+
+        $this->nrOfClicks ++;
         $this->cards[$cardPosition]['status'] = 1;
+
+        /** save your first card */
+        if ($this->nrOfClicks == 1) {
+            $this->firstCardClicked = $cardPosition;
+        }
+
+        if ($this->nrOfClicks == 2) {
+            /**
+             * check if cards are the same
+             * yes: update score and play again
+             * no: end turn
+             */
+
+            $this->nrOfClicks = 0;
+            $this->cards[$this->firstCardClicked]['status'] = 0;
+            $this->cards[$cardPosition]['status'] = 0;
+            $this->firstCardClicked = -1;
+
+        }
+    }
+
+    public function hydrateNrOfClicks($value)
+    {
+        return $value;
+    }
+
+    public function dehydrateNrOfClicks($value)
+    {
+        return $value;
     }
 
     /**
