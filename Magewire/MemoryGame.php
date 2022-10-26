@@ -70,4 +70,12 @@ class MemoryGame extends Component
         shuffle($cards);
         return $cards;
     }
+
+    /**
+     * @return string
+     */
+    public function foo()
+    {
+        return "dsds";
+    }
 }

@@ -12,11 +12,11 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
     <div class="grid grid-cols-4 gap-4">
         <?php
         $config = $magewire->getMemoryGameConfig();
-    
+
         foreach ($config['cards'] as $card):
             ?>
             <div>
-                <img src="<?= $card['url'] ?>" />
+                <img src="<?= $card['url'] ?>" wire:click="foo" />
             </div>
         <?php endforeach; ?>
     </div>
