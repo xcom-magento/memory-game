@@ -5,20 +5,19 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
 
 /**
  * @var \Xcom\MemoryGame\Block\MemoryGame $block
+ * @var \Xcom\MemoryGame\Magewire\MemoryGame $magewire
  */
-
-echo $block->getMemoryGame();
-
 ?>
-
-<div class="grid grid-cols-4 gap-4">
-    <?php
-    $config = $block->getMemoryGameConfig();
-
-    foreach ($config['cards'] as $card):
-        ?>
-        <div>
-            <img src="<?= $card['url'] ?>" />
-        </div>
-    <?php endforeach; ?>
+<div>
+    <div class="grid grid-cols-4 gap-4">
+        <?php
+        $config = $magewire->getMemoryGameConfig();
+    
+        foreach ($config['cards'] as $card):
+            ?>
+            <div>
+                <img src="<?= $card['url'] ?>" />
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
