@@ -2,6 +2,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <referenceContainer name="content">
-        <block class="Xcom\MemoryGame\Block\MemoryGame" name="memorygame" template="Xcom_MemoryGame::memorygame.phtml" />
+        <block class="Xcom\MemoryGame\Block\MemoryGame" name="memorygame" template="Xcom_MemoryGame::memorygame.phtml">
+            <arguments>
+                <argument name="magewire" xsi:type="object">\Xcom\MemoryGame\Magewire\MemoryGame</argument>
+            </arguments>
+        </block>
     </referenceContainer>
 </page>
