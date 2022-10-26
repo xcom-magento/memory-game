@@ -17,7 +17,7 @@ class Player extends AbstractModel implements PlayerInterface
      */
     public function _construct()
     {
-        $this->_init(\Xcom\MemoryGame\Model\ResourceModel\Game::class);
+        $this->_init(\Xcom\MemoryGame\Model\ResourceModel\Player::class);
     }
 
     /**
