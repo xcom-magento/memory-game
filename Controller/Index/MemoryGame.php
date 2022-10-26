@@ -10,7 +10,7 @@ class MemoryGame extends \Magento\Framework\App\Action\Action
     /**
      * @var PageFactory
      */
-    protected $_pageFactory;
+    protected PageFactory $_pageFactory;
 
     /**
      * @param Context $context

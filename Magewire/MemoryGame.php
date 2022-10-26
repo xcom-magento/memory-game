@@ -10,6 +10,11 @@ use Magewirephp\Magewire\Component;
 class MemoryGame extends Component
 {
     /**
+     * @var array
+     */
+    public array $cards = [];
+
+    /**
      * @param Json $jsonSerializer
      * @param ProductRepositoryInterface $productRepository
      * @param ProductHelper $productHelper
@@ -21,6 +26,15 @@ class MemoryGame extends Component
     ) {
     }
 
+    public function initialize()
+    {
+        $this->cards = $this->dealCards();
+    }
+
+    public function checkYourTurn() {
+        return rand(1,100);
+    }
+
     /**
      * @return string
      */
@@ -29,27 +43,10 @@ class MemoryGame extends Component
         return __('MemoryGame')->render();
     }
 
-    public function checkYourTurn() {
-        return rand(1,100);
-    }
-
     /**
      * @return array
      */
-    public function getMemoryGameConfig(): array
-    {
-        $config = [];
-
-        $config['cards'] = $this->getMemoryCards();
-
-        return $config;
-        //return $this->jsonSerializer->serialize($config);
-    }
-
-    /**
-     * @return array
-     */
-    private function getMemoryCards(): array
+    private function dealCards(): array
     {
         $cards = [];
         $products = [1,2,3,4,5,6];
@@ -61,7 +58,8 @@ class MemoryGame extends Component
                     $productInfo = [
                         'id' => $product->getId(),
                         'name' => $product->getName(),
-                        'url' => $this->productHelper->getImageUrl($product)
+                        'url' => $this->productHelper->getImageUrl($product),
+                        'status' => 0
                     ];
                     $cards[] = $productInfo;
                     $cards[] = $productInfo;
@@ -78,8 +76,8 @@ class MemoryGame extends Component
     /**
      * @return string
      */
-    public function foo()
+    public function turnCard(): string
     {
-        return "dsds";
+        return '';
     }
 }

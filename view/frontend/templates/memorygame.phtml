@@ -1,11 +1,14 @@
 <?php
 
-/** @var Explanation $magewire */
+use Magento\Framework\View\Element\Template;
 use Xcom\MemoryGame\Magewire\MemoryGame;
 
 /**
- * @var \Xcom\MemoryGame\Magewire\MemoryGame $magewire
- */
+ * @var Template $block
+ * @var MemoryGame $magewire
+**/
+
+$magewire->initialize();
 ?>
 
 <div wire:poll.keep-alive="$emitTo('memorygame', 'refresh')">
@@ -15,12 +18,15 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
 <div>
     <div class="grid grid-cols-4 gap-4">
         <?php
-        $config = $magewire->getMemoryGameConfig();
-
-        foreach ($config['cards'] as $card):
+        foreach ($magewire->cards as $card):
             ?>
             <div>
-                <img src="<?= $card['url'] ?>" wire:click="foo" />
+                <?php if ($card['status'] == 0): ?>
+                <img data-id="<?= $card['id'] ?>" src="<?=$block->getViewFileUrl('Xcom_MemoryGame::images/logo.svg') ?>"
+                     wire:click="turnCard" />
+                <?php else: ?>
+                <img data-id="<?= $card['id'] ?>" src="<?= $card['url'] ?>" />
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </div>
