@@ -10,12 +10,8 @@ use Xcom\MemoryGame\Magewire\MemoryGame;
 
 $magewire->initialize();
 ?>
-
 <div wire:poll.10000ms="$emitTo('memorygame', 'refresh')">
     <?php echo $magewire->checkYourTurn(); ?>
-</div>
-
-<div>
     <div class="grid grid-cols-4 gap-4">
         <?php
         foreach ($magewire->cards as $card):
