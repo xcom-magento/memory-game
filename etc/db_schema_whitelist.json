@@ -15,7 +15,8 @@
             "status": true,
             "player1": true,
             "player2": true,
-            "active_player": true
+            "active_player": true,
+            "game_config": true
         },
         "index": {
             "MEMORY_GAME_GAME_GAME_ID": true

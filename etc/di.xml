@@ -1,0 +1,8 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Xcom\MemoryGame\Api\GameRepositoryInterface"
+                type="Xcom\MemoryGame\Model\GameRepository" />
+
+    <preference for="Xcom\MemoryGame\Api\PlayerRepositoryInterface"
+                type="Xcom\MemoryGame\Model\PlayerRepository" />
+</config>

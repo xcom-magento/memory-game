@@ -18,6 +18,7 @@
         <column xsi:type="int" name="player1" unsigned="true" nullable="true" comment="Player 1"/>
         <column xsi:type="int" name="player2" unsigned="true" nullable="true" comment="Player 2"/>
         <column xsi:type="int" name="active_player" unsigned="true" nullable="true" comment="Active Player"/>
+        <column xsi:type="text" name="game_config" nullable="false" comment="Game Config"/>
         <constraint xsi:type="foreign" referenceId="MEM_GAM_PLY_ID1"
                     table="memory_game_game" column="player1" referenceTable="memory_game_player"
                     referenceColumn="player_id" onDelete="CASCADE"/>

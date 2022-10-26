@@ -6,6 +6,8 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Helper\Product as ProductHelper;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magewirephp\Magewire\Component;
+use Xcom\MemoryGame\Api\PlayerRepositoryInterface;
+use Xcom\MemoryGame\Model\PlayerFactory;
 
 class MemoryGame extends Component
 {
@@ -14,15 +16,12 @@ class MemoryGame extends Component
      */
     public array $cards = [];
 
-    /**
-     * @param Json $jsonSerializer
-     * @param ProductRepositoryInterface $productRepository
-     * @param ProductHelper $productHelper
-     */
     public function __construct(
         protected Json $jsonSerializer,
         protected ProductRepositoryInterface $productRepository,
-        protected ProductHelper $productHelper
+        protected ProductHelper $productHelper,
+        protected PlayerRepositoryInterface $playerRepository,
+        protected PlayerFactory $playerFactory
     ) {
     }
 
