@@ -37,16 +37,18 @@ class MemoryGame extends Component
     {
         parent::mount($properties, $request);
 
-        if (count($this->cards) == 0) {
+        $player = $this->getPlayer();
+        $gameConfig = [
+            'cards' => $this->cards
+        ];
+        $game = $this->getGame($player, $gameConfig);
+        
+        $cards = $this->jsonSerializer->unserialize($game->getGameConfig());
+        if (count($cards) == 0) {
             $this->cards = $this->dealCards();
-            $player = $this->getPlayer();
-            $gameConfig = [
-                'cards' => $this->cards
-            ];
-            $gameConfig = $this->jsonSerializer->serialize($gameConfig);
-            $game = $this->getGame($player, $gameConfig);
+            
+            $this->updateGameConfig($game);
         }
-
     }
 
     public function checkYourTurn() {
@@ -135,9 +137,13 @@ class MemoryGame extends Component
             $game = $this->gameFactory->create();
             $game->setStatus('waiting_for_players')
                 ->setPlayer1($player->getPlayerId())
-                ->setGameConfig($gameConfig);
+                ->setGameConfig($this->jsonSerializer->serialize($gameConfig));
             $this->gameRepository->save($game);
         }
         return $game;
+    }
+
+    private function updateGameConfig(GameInterface $game)
+    {
     }
 }
