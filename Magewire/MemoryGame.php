@@ -42,12 +42,14 @@ class MemoryGame extends Component
             'cards' => $this->cards
         ];
         $game = $this->getGame($player, $gameConfig);
-        
-        $cards = $this->jsonSerializer->unserialize($game->getGameConfig());
-        if (count($cards) == 0) {
+
+        $gameConfig = $this->jsonSerializer->unserialize($game->getGameConfig());
+        if (count($gameConfig['cards']) == 0) {
             $this->cards = $this->dealCards();
-            
-            $this->updateGameConfig($game);
+            $gameConfig['cards'] = $this->cards;
+            $this->updateGameConfig($game, $gameConfig);
+        } else {
+            $this->cards = $gameConfig['cards'];
         }
     }
 
@@ -143,7 +145,15 @@ class MemoryGame extends Component
         return $game;
     }
 
-    private function updateGameConfig(GameInterface $game)
+    /**
+     * @param GameInterface $game
+     * @param $gameConfig
+     * @return void
+     * @throws LocalizedException
+     */
+    private function updateGameConfig(GameInterface $game, $gameConfig): void
     {
+        $game->setGameConfig($this->jsonSerializer->serialize($gameConfig));
+        $this->gameRepository->save($game);
     }
 }
